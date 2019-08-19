@@ -107,6 +107,6 @@ The app defines following CRUD APIs.
 	    "createdAt": null
 	}
     
-    GET /api/v1/orders/{userId}
+    GET /api/v1/orders/{orderId}
 
 
