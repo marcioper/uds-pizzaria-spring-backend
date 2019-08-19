@@ -13,54 +13,40 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.udspizzaria.springcloudmysql.model.User;
-import com.udspizzaria.springcloudmysql.repository.UserRepository;
+import com.udspizzaria.springcloudmysql.service.UserService;
 
 @RestController
-@RequestMapping({"/api/v1/users"})
+@RequestMapping({ "/api/v1/users" })
 public class UserController {
 
-   private UserRepository repository;
+	private UserService service;
 
-   UserController(UserRepository userRepository) {
-       this.repository = userRepository;
-   }
+	UserController(UserService userService) {
+		this.service = userService;
+	}
 
-   @GetMapping
-   public List<User> findAll(){
-      return repository.findAll();
-   }
-   
-   @GetMapping(path = {"/{id}"})
-   public ResponseEntity<User> findById(@PathVariable long id){
-      return repository.findById(id)
-              .map(record -> ResponseEntity.ok().body(record))
-              .orElse(ResponseEntity.notFound().build());
-   }
-   
-   @PostMapping
-   public User create(@RequestBody User user){
-      return repository.save(user);
-   }
-   
-   @PutMapping(value="/{id}")
-   public ResponseEntity<User> update(@PathVariable("id") long id,
-                                         @RequestBody User user) {
-      return repository.findById(id)
-              .map(record -> {
-                  record.setName(user.getName());
-                  record.setEmail(user.getEmail());
-                  record.setPhone(user.getPhone());
-                  User updated = repository.save(record);
-                  return ResponseEntity.ok().body(updated);
-              }).orElse(ResponseEntity.notFound().build());
-   }
-   
-   @DeleteMapping(path ={"/{id}"})
-   public ResponseEntity<?> delete(@PathVariable long id) {
-      return repository.findById(id)
-              .map(record -> {
-                  repository.deleteById(id);
-                  return ResponseEntity.ok().build();
-              }).orElse(ResponseEntity.notFound().build());
-   }
+	@GetMapping
+	public List<User> findAll() {
+		return service.findAll();
+	}
+
+	@GetMapping(path = { "/{id}" })
+	public ResponseEntity<User> findById(@PathVariable long id) {
+		return service.findById(id);
+	}
+
+	@PostMapping
+	public User create(@RequestBody User user) {
+		return service.create(user);
+	}
+
+	@PutMapping(value = "/{id}")
+	public ResponseEntity<User> update(@PathVariable("id") long id, @RequestBody User user) {
+		return service.update(id, user);
+	}
+
+	@DeleteMapping(path = { "/{id}" })
+	public ResponseEntity<?> delete(@PathVariable long id) {
+		return service.delete(id);
+	}
 }
