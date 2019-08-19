@@ -1,11 +1,11 @@
-# Testes back-end UDS Pizzaria
+# Desafio back-end spring-boot UDS Pizzaria
 
 ## Steps to Setup
 
 **1. Clone the application**
 
 ```bash
-https://github.com/marcioper/uds-pizzaria-spring-backend
+https://github.com/marcioper/uds-pizzaria-spring-backend.git
 ```
 
 **2. Create Mysql database**
